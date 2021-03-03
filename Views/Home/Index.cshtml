@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<div ng-app="my-trainees" class="container" ng-controller="trainee-controller">
+    <div class="panel panel-info">
+        <div class="panel-heading" style="text-align:center;font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size:30px;">
+            IsDB-BISEW IT SCHOLARSHIP PROJECT
+        </div>
+        <h2 style="text-align:center;font-size:30px;font-style:italic;color:forestgreen">Microsoft Certified Proffessional</h2>
+
+  
+        
+        <div class="panel-body">
+            <button type="button" class="btn btn-info"
+                    data-target="#AddNew" data-toggle="modal">
+                Add Trainee
+            </button>
+            <br />
+        </div>
+        @*Trainee Records*@
+
+
+
+        <table class="table table-bordered">
+            <thead style="background-color:lightblue;">
+                <tr>
+                    <th> Trainee ID</th>
+                    <th> Trainee Name</th>
+                    <th>MSID </th>
+                    <th>Exam Code</th>
+                    <th>Score</th>
+                    <th> Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="trn in Trainees | filter:search">
+                    <td> {{trn.TraineeID}}</td>
+                    <td> {{trn.TraineeName}} </td>
+                    <td>{{trn.MSID}}</td>
+                    <td>{{trn.ExamCode}}</td>
+                    <td>{{trn.Score}}</td>
+                    <td style="width:200px;">
+                        <a href="#"
+                           class="btn btn-info"
+                           data-toggle="modal"
+                           data-target="#Update"
+                           ng-click="getForUpdate(trn)">
+                            Update
+                        </a>
+                        <a href="#" class="btn btn-danger"
+                           id="btnDelete"
+                           data-toggle="modal"
+                           data-target="#deleteDialog"
+                           ng-click="getForDelete(trn)">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <span style="font-size:large"><b>Find Trainee</b></span><br /><input type="text" ng-model="search" placeholder="Search By Name" />
+    </div>
+    @*New record Modal addition..*@
+    <div class="modal" id="AddNew" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="text-info">Add New Trainee</h3>
+                </div>
+                <div class="modal-body" style="margin-left:20px">
+                    @*Add New Trainee form starts here...*@
+                    <form class="form-horizontal" name="AddNewForm">
+                        <div class="form-group">
+                            <input class="form-control" readonly="readonly" name="TraineeNo" ng-model="TraineeNo" type="hidden" placeholder="Trainee Number" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label"> Trainee Name</label>
+                            <input class="form-control" name="TrnName" ng-model="TraineeName" type="text" placeholder="Trainee Name" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label"> MSID</label>
+                            <input class="form-control" name="Msid" ng-model="MSID" type="text" placeholder="MSID" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label"> Exam Code</label>
+                            <input class="form-control" name="ExamCode" ng-model="ExamCode" type="text" placeholder="Exam Code" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label"> Score</label>
+                            <input class="form-control" name="Score" ng-model="Score" type="text" placeholder="Score" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnSave" data-dismiss="modal" ng-click="save()">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="resetSave()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Upadate Trainee records*@
+    <div class="modal" id="Update" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="text-info">Update Existing Trainee</h3>
+                </div>
+                <div class="modal-body" style="margin-left:20px">
+                    @*Update Trainee form starts here...*@
+                    <form class="form-horizontal" name="UpdateTraineeForm">
+                        <div class="form-group">
+                            <input class="form-control" readonly="readonly" name="TraineeNo" ng-model="UpdateTraineeNo" type="hidden" placeholder="Trainee Number" />
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info"> Trainee Name</label>
+                            <input class="form-control" name="TraineeName" ng-model="UpdateTraineeName" type="text" placeholder="Trainee Name" />
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info"> MSID</label>
+                            <input class="form-control" name="MSID" ng-model="UpdateMSID" type="text" placeholder="MSID" />
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info"> Exam Code</label>
+                            <input class="form-control" name="ExamCode" ng-model="UpdateExamCode" type="text" placeholder="Exam Code" />
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info"> Score</label>
+                            <input class="form-control" name="Score" ng-model="UpdateScore" type="text" placeholder="Score" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnUpdate" data-dismiss="modal" ng-click="update()">
+                        Update
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Delete Trainee record*@
+    <div class="modal" role="dialog" id="deleteDialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="text-info">Are you sure you want to delete the record?</h3>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <p>Trainee ID : {{UpdateTraineeNo}}</p>
+                        <p>Trainee Name : {{UpdateTraineeName}}</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="delete(UpdateTraineeNo)">Delete Record</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script src="~/Mcsd_AngularJsApp/Module.js"></script>
+    <script src="~/Mcsd_AngularJsApp/Service.js"></script>
+    <script src="~/Mcsd_AngularJsApp/Controller.js"></script>
+}
+
